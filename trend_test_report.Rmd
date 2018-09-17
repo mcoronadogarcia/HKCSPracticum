@@ -1,0 +1,44 @@
+---
+title: "Trend Report Test"
+# author: "Mayra Coronado Garcia"
+# date: "9/10/2018"
+geometry: margin = 0.5in
+fontsize: 12pt
+classoption: landscape
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r include = FALSE}
+# Load Data
+cc_hs_final = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/cc_hs_final.csv')
+
+# Load Function
+source("/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/Trend_Analysis_Function.R")
+
+# Run Function
+hkcs.results = hkcs.trend.analysis(
+  hkcs.data = cc_hs_final,
+  hkcs.strata = "SchoolID",
+  hkcs.cluster = "CLASSID",
+  hkcs.weight = "Wt_School",
+  prefix = "QN_"
+)
+```
+
+## Summary Statistics
+
+```{r echo=FALSE}
+library("knitr")
+library("kableExtra")
+kable(hkcs.results, "latex", longtable = T, booktabs = T)%>%
+kable_styling(latex_options = c("striped", "HOLD_position",
+                                "repeat_header"), full_width = T)
+```
+
