@@ -1,0 +1,124 @@
+\documentclass[11pt]{article}
+% calls latex packages 
+\usepackage[landscape,
+  left = 0.6in,
+  right =  0.6in,
+  top = 1.85cm,
+  bottom = 5cm]
+  {geometry}
+\usepackage[table]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{pagecolor}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.25}
+
+% define page color and style
+\definecolor{bubbles}{rgb}{0.91, 1.0, 1.0} % page color
+\pagestyle{fancy}
+%\pagecolor{bubbles}
+
+% set up header's and footers
+\setlength\headheight{74pt} % increases header height
+\renewcommand{\headrulewidth}{0pt} % removes header line on top
+
+\chead{\includegraphics[height = 1.3in]{/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/HKCS_LogoNew.jpg}} % add's logo to header
+\lfoot{Healthy Kids Colorado Survey} % footer left
+\rfoot{www$.healthykidscolo$.org} % footer right
+
+\usepackage{Sweave}
+\begin{document}
+\input{anothertest-concordance}
+
+
+\begin{center}
+  \section*{Test School Snapshot}
+  \subsection*{Examining Variables from 2013 to 2017}
+\end{center}
+\vspace{-0.5cm}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{1pt}}
+
+\vspace{0.15in}
+\noindent This snapshot report presents your school's results from 2013, 2015, and 2017 Healthy Kids Colorado Survey (HKCS). The HKCS collects self-reported health information from Colorado public school students every other year. The HKCS is surpported by the Colorado Department of Public Health and Environment, Colorado Department of Education, Colorado Department of Safety, and Colorado Department of Human Services. A team at the Colorado School of Public Health administers the survey. Website: www.healthykidscolo.org | Email: hkcs@ucdenver.edu \\
+
+\noindent Classrooms were randomly sampled and students in those classes were asked to complete the survey. In some schools, all students were invited to participate. If the school response rate was 30\% or higher, their data was weighted to represent all students in the grades surveyed. If the response rate was lower than 30\%, the data only represents the participating students. Under- or over-representation of some demographic groups may affect interpretation of results.\\
+
+\noindent Table 1 contains the number of students who completed the survey during 2013, 2015, and 2017. Table 2 contains the estimated percentage  and 95\% confidence interval of students who answered yes to the health behavior described in the first column for 2013, 2015, and 2017. Additionally, if requested, a trend analysis was conducted for each behavior from 2013 to 2017. The results of this analysis should be used to gain some insight into change in a behavior over time, but should not be the only method. In order to be more confident in the results from the trend analysis, more waves of data are recommended. The results from this trend analysis are located in the fifth column of table 2. The results of the analysis are presented with "Increase", "Decrease," or a blank space. "Increase" was used to describe a significant increase trend of change, "Decrease" was used to describe a significant decrease trend of change, and a blank space was used when a health behavior was found to have an insignificant trend of change from 2013 to 2017.
+
+\rowcolors{2}{bubbles}{bubbles!35}
+% latex table generated in R 3.5.1 by xtable 1.8-3 package
+% Mon Sep 24 11:56:53 2018
+\begin{table}[h]
+\centering
+\caption{Number of students who completed the survey in 2013, 2015, and 2017.} 
+\begin{tabular}{rr}
+  \hline
+Survey Year & Number of Respondents \\ 
+  \hline
+2013 & 465 \\ 
+  2015 & 479 \\ 
+  2017 & 344 \\ 
+   \hline
+\end{tabular}
+\end{table}
+\rowcolors{4}{bubbles}{bubbles!50}
+\captionsetup{width=\textwidth, singlelinecheck=false, justification= raggedright}
+% latex table generated in R 3.5.1 by xtable 1.8-3 package
+% Mon Sep 24 11:56:53 2018
+\begin{longtable}{p{12cm}|rrr|r}
+\caption{Percentage and 95 percent confidence Interval of health behavior across 2013, 2015, and 2017.} \\ 
+  \hline
+Behavior of Interest & 2013 & 2015 & 2017 & Trend \\ 
+  \hline
+\endhead
+\hline
+\multicolumn{5}{l}{\footnotesize Continued on next page}
+\endfoot
+\endlastfoot
+Rode one or more times during the past 30 days in a car or other vehicle driven by someone who had been drinking alcohol. & 16.0 (11.9 - 21.0) & 16.6 (11.7 - 22.9) & 12.3 ( 8.8 - 17.0) &  \\ 
+  Had at least one drink of alcohol. & 71.8 (63.9 - 78.6) & 71.3 (64.7 - 77.1) & 68.9 (61.9 - 75.1) &  \\ 
+  Had at least one drink of alcohol at least once in the past 30 days. & 30.2 (24.1 - 37.2) & 37.4 (31.2 - 44.0) & 29.8 (22.6 - 38.2) &  \\ 
+  Think it would be sory of easy or very easy to access alcohol if they wanted. & 55.8*(48.3 - 63.1) & 61.2*(53.9 - 68.0) & 56.5*(48.5 - 64.1) &  \\ 
+  Think people who have one or two drinks nearly every day have moderate or great risk of harming themselves. & 71.5*(65.1 - 77.2) & 69.0*(59.9 - 76.8) & 76.2*(68.9 - 82.3) &  \\ 
+  Could ask parents or guardians for help with a personal problem. & 76.5*(69.7 - 82.1) & 77.6*(71.5 - 82.7) & 86.1 (81.0 - 90.0) & Increase \\ 
+  Used marijuana at least once in their lifetime. & 41.3 (34.4 - 48.5) & 46.2 (38.9 - 53.7) & 41.4 (33.1 - 50.2) &  \\ 
+  Used marijuana at least once during the past 30 days. & 20.1 (15.3 - 25.9) & 22.6 (17.6 - 28.6) & 21.4 (17.1 - 26.5) &  \\ 
+  Felt it would be sort of easy or very easy to get marijuana if they wanted.  & 63.2*(54.8 - 70.8) & 63.4*(54.6 - 71.4) & 57.8*(45.4 - 69.4) &  \\ 
+  Think people who use mariguana regularly have moderate or great risk of harming themselves. & 49.1*(41.7 - 56.6) & 51.5*(42.1 - 60.9) & 55.0 (47.5 - 62.2) &  \\ 
+  Think it is wrong or very wrong for someone their age to use marijuana. & 59.3*(52.0 - 66.3) & 57.6*(49.4 - 65.4) & 58.4 (48.5 - 67.7) &  \\ 
+  Felt sad or hopeless almost everyday for two weeks or more in a row during the past 12 months that they stopped doing some usual activities. & 29.4 (24.7 - 34.6) & 36.8 (31.3 - 42.7) & 38.0 (32.8 - 43.6) & Increase \\ 
+  Seriously considered attempting suicide during the past 12 months. & 18.7 (13.6 - 25.0) & 23.6 (18.9 - 29.2) & 21.7 (17.8 - 26.3) &  \\ 
+  Attempted suicided at least once during the past 12 months. &  8.4 ( 6.0 - 11.6) & 12.4 ( 9.1 - 16.8) &  7.4 ( 5.0 - 10.8) &  \\ 
+  Ate at least one fruit in the past seven days.  & 42.1 (37.7 - 46.6) & 41.3 (34.9 - 47.9) & 41.6 (35.3 - 48.3) &  \\ 
+  Ate at least one vegetable in the past seven days.  & 41.3 (37.0 - 45.8) & 41.5 (35.6 - 47.6) & 48.0*(37.7 - 58.4) &  \\ 
+  Ate breakfast on all of the past seven days. & 43.2 (38.9 - 47.6) & 36.3 (28.6 - 44.8) & 33.7 (28.0 - 39.9) & Decrease \\ 
+  Drank a can, bottle, or glass of soda at least once a day during the past seven days. & 20.3 (16.1 - 25.3) & 16.5 (12.6 - 21.3) & 15.2*(10.0 - 22.5) &  \\ 
+  Were physically active for 60 minutes a day for at least 5 days of the past 7 days. & 50.9 (45.3 - 56.4) & 54.1 (47.6 - 60.4) & 65.0 (56.2 - 72.9) & Increase \\ 
+  Had 3 or more hours of total screen time during an average school day. & 60.4 (53.9 - 66.6) & 59.8 (54.5 - 64.9) & 52.0 (45.4 - 58.4) &  \\ 
+  On an average week, attended physical education classes at least once. & 39.6*(32.5 - 47.1) & 38.8*(28.8 - 49.9) & 42.8 (33.1 - 53.1) &  \\ 
+  Were apart of at least one sports team in the last 12 months. & 50.6 (45.8 - 55.5) & 61.7 (54.0 - 68.9) & 56.4 (47.5 - 64.9) &  \\ 
+  Carried a weapon such as a gun, knife, or club on school property at least once in the past 30 days. &  6.5 ( 4.1 - 10.2) &  5.4 ( 3.0 -  9.6) &  5.0 ( 3.0 -  8.2) &  \\ 
+  Fought in at least one fight during the past 12 months. & 24.7 (19.9 - 30.3) & 26.3 (19.5 - 34.4) & 21.1 (17.1 - 25.7) &  \\ 
+  Been bullied on school property during the past 12 months. & 23.3 (19.2 - 28.0) & 28.3 (24.0 - 33.0) & 22.9 (17.5 - 29.4) &  \\ 
+  Been electronically bullied during the past 12 months. & 21.2 (17.4 - 25.5) & 24.3 (20.6 - 28.4) & 17.2 (13.0 - 22.4) &  \\ 
+  Described their grades as mostly A's or B's over the past 12 months. & 70.6*(61.9 - 78.0) & 74.0 (67.1 - 80.0) & 80.7 (70.3 - 88.1) &  \\ 
+  Participated in extra curricular activities at school. & 63.7*(56.2 - 70.6) & 76.2*(65.7 - 84.3) & 66.6 (57.9 - 74.3) &  \\ 
+  Skipped at least one whole day of school during the last four weeks. & 22.9*(17.5 - 29.3) & 21.8*(15.1 - 30.3) & 23.6 (16.9 - 32.0) &  \\ 
+  Thought it is important to go to college. & 90.3*(85.6 - 93.5) & 86.9*(80.6 - 91.4) & 89.9*(83.7 - 93.9) &  \\ 
+  Ever had sexual intercouse. & 44.5 (35.0 - 54.5) & 47.0 (37.3 - 57.0) & 46.8 (36.8 - 57.1) &  \\ 
+  Had sexual intercourse with at least one person during the past three months. & 31.3 (22.7 - 41.3) & 36.5 (28.4 - 45.6) & 36.6 (27.6 - 46.7) &  \\ 
+  Of those who had sexual intercourse during the past three months, used no method of birth control to prevent pregnancy before last sexual intercourse. &  9.9 ( 4.0 - 22.4) &  9.4 ( 3.1 - 25.2) &  2.9 ( 1.0 -  7.6) &  \\ 
+  Had ever smoked a whole cigarette. & 34.9 (28.4 - 41.9) & 34.4 (27.0 - 42.5) & 26.6*(18.1 - 37.4) &  \\ 
+  \hline
+\end{longtable}\vspace{-0.4cm}
+\begin{footnotesize}
+*: The estimates are based on half the sample size because the question was either on module A or module B. \\
+ .(.-.): Data are suppressed to ensure confidentiality when the number number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0 or 100 percent, as indicated by all the periods. All percentages are rounded to the nearest tenth\\
+\end{footnotesize}
+
+\noindent For more information about how to use your data, resources available, and other data or technical asistance requests, please email Project Director, Ashley Brooks-Russell at ashley.brooks-russell@ucdenver.edu or HKCS@ucdenver.edu
+\\
+\noindent Website: www.healthykidscolo.org
+
+\end{document}

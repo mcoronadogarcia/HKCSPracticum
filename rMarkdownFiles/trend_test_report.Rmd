@@ -1,0 +1,69 @@
+---
+geometry: margin = 0.5in
+fontsize: 12pt
+classoption: landscape
+output:
+  pdf_document: default
+  html_document: default
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include = FALSE}
+# load packages
+library('dplyr')
+# Load Data
+cc_hs_final = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/cc_hs_final.csv')
+
+# Load Function
+source("/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/Trend_Analysis_Function.R")
+
+# Run Function
+district_name = "Test School"
+hkcs.results = hkcs.trend.analysis(district_id = 1140,
+                                   data = cc_hs_final,
+                                   hkcs.cluster = "CLASSID",
+                                   hkcs.strata = "SchoolID",
+                                   moda.weight = "Wt_School_moda",
+                                   modb.weight = "Wt_School_modb",
+                                   core.weight = "Wt_School",
+                                   trend = "Yes",
+                                   prefix = "QN_",
+                                   variables = NULL)
+
+```
+
+# High School Snapshot of Behaviors from 2013 to 2017
+## `r district_name`
+
+```{r echo=FALSE}
+library("knitr")
+library("kableExtra")
+
+kable(hkcs.results[[1]], "latex", longtable = T, booktabs = T,
+      align = "c")
+# converts the results from the function to a data frame
+percentages = as.data.frame(hkcs.results[[2]])
+percentages$`Behavior of Interest` <- as.character(
+  percentages$`Behavior of Interest`) # factor converted to character
+if(sum(colnames(percentages) == "Trend") >0){
+  percentages$Trend = as.character(percentages$Trend)
+} # factor converted to character
+
+# results data frame to be a presentable table
+percentages %>%
+  mutate_all(linebreak) %>%
+  kable("latex", longtable = T, booktabs = T, escape = F,
+        align = c("l",rep("r", ncol(percentages)-1)))%>%
+  kable_styling(latex_options = c("striped", "HOLD_position",
+                                  "repeat_header"), full_width = T)%>%
+  row_spec(0, align = "c") %>%
+  column_spec(1, width = "35em")%>%
+  add_header_above(c(" " = 1, "Percentage (%)" = 3))%>%
+  caption("The estimates are based on half the sample size because the question was either on module A or module B. Data are suppressed to ensure confidentiality when the number number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0% or 100%, as indicated by all period (.). All percentages are rounded to the nearest tenth.")
+
+```
+

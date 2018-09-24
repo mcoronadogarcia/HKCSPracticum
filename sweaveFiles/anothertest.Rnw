@@ -1,0 +1,122 @@
+\documentclass[11pt]{article}
+% calls latex packages 
+\usepackage[landscape,
+  left = 0.6in,
+  right =  0.6in,
+  top = 1.85cm,
+  bottom = 5cm]
+  {geometry}
+\usepackage[table]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{pagecolor}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.25}
+
+% define page color and style
+\definecolor{bubbles}{rgb}{0.91, 1.0, 1.0} % page color
+\pagestyle{fancy}
+%\pagecolor{bubbles}
+
+% set up header's and footers
+\setlength\headheight{74pt} % increases header height
+\renewcommand{\headrulewidth}{0pt} % removes header line on top
+
+\chead{\includegraphics[height = 1.3in]{/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/HKCS_LogoNew.jpg}} % add's logo to header
+\lfoot{Healthy Kids Colorado Survey} % footer left
+\rfoot{www$.healthykidscolo$.org} % footer right
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+<<echo = F>>=
+
+# Load Data
+cc_hs_final = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/cc_hs_final.csv')
+
+# Load Function
+source("/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/Trend_Analysis_Function.R")
+
+# Run Function
+district_name = "Test School"
+hkcs.results = hkcs.trend.analysis(district_id = 1140,
+                                   data = cc_hs_final,
+                                   hkcs.cluster = "CLASSID",
+                                   hkcs.strata = "SchoolID",
+                                   moda.weight = "Wt_School_moda",
+                                   modb.weight = "Wt_School_modb",
+                                   core.weight = "Wt_School",
+                                   trend = "Yes",
+                                   prefix = "QN_",
+                                   variables = NULL)
+@
+
+\begin{center}
+  \section*{\Sexpr{district_name} Snapshot}
+  \subsection*{Examining Variables from 2013 to 2017}
+\end{center}
+\vspace{-0.5cm}
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{1pt}}
+
+\vspace{0.15in}
+\noindent This snapshot report presents your school's results from 2013, 2015, and 2017 Healthy Kids Colorado Survey (HKCS). The HKCS collects self-reported health information from Colorado public school students every other year. The HKCS is surpported by the Colorado Department of Public Health and Environment, Colorado Department of Education, Colorado Department of Safety, and Colorado Department of Human Services. A team at the Colorado School of Public Health administers the survey. Website: www.healthykidscolo.org | Email: hkcs@ucdenver.edu \\
+
+\noindent Classrooms were randomly sampled and students in those classes were asked to complete the survey. In some schools, all students were invited to participate. If the school response rate was 30\% or higher, their data was weighted to represent all students in the grades surveyed. If the response rate was lower than 30\%, the data only represents the participating students. Under- or over-representation of some demographic groups may affect interpretation of results.\\
+
+\noindent Table 1 contains the number of students who completed the survey during 2013, 2015, and 2017. Table 2 contains the estimated percentage  and 95\% confidence interval of students who answered yes to the health behavior described in the first column for 2013, 2015, and 2017. Additionally, if requested, a trend analysis was conducted for each behavior from 2013 to 2017. The results of this analysis should be used to gain some insight into change in a behavior over time, but should not be the only method. In order to be more confident in the results from the trend analysis, more waves of data are recommended. The results from this trend analysis are located in the fifth column of table 2. The results of the analysis are presented with "Increase", "Decrease," or a blank space. "Increase" was used to describe a significant increase trend of change, "Decrease" was used to describe a significant decrease trend of change, and a blank space was used when a health behavior was found to have an insignificant trend of change from 2013 to 2017.
+
+\rowcolors{2}{bubbles}{bubbles!35}
+<<echo = FALSE, results = tex>>=
+samplesize = xtable(hkcs.results[[1]],
+                    latext.environments = "center",
+                    caption = "Number of students who completed the survey in 2013, 2015, and 2017.")
+print(samplesize, include.rownames = FALSE, caption.placement="top", 
+      table.placement = "h", rescale = 2)
+@
+
+\rowcolors{4}{bubbles}{bubbles!50}
+\captionsetup{width=\textwidth, singlelinecheck=false, justification= raggedright}
+<<echo = FALSE, results = tex>>=
+percentages = as.data.frame(hkcs.results[[2]])
+percentages$`Behavior of Interest` <- as.character(
+  percentages$`Behavior of Interest`) # factor converted to character
+if(sum(colnames(percentages) == "Trend") >0){
+  percentages$Trend = as.character(percentages$Trend)
+} # factor converted to character
+
+# results data frame to be a presentable table
+percentages.table = xtable(percentages, caption = "Percentage and 95 percent confidence Interval of health behavior across 2013, 2015, and 2017.")
+
+if(sum(colnames(percentages) == "Trend") >0){
+  align(percentages.table) <- "lp{12cm}|rrr|r"
+} else {align(percentages.table) <- "lp{12cm}|rrr"}
+
+add.to.row <- list(pos = list(0), command = NULL)
+command <- paste0("\\hline\n\\endhead\n",
+"\\hline\n",
+"\\multicolumn{", dim(percentages)[2] , "}{l}",
+"{\\footnotesize Continued on next page}\n",
+"\\endfoot\n",
+"\\endlastfoot\n")
+add.to.row$command <- command
+
+print(percentages.table,
+      hline.after=c(-1),
+      add.to.row = add.to.row,
+      tabular.environment = "longtable",
+      floating = FALSE,
+      include.rownames = FALSE,
+      caption.placement="top")
+@
+\vspace{-0.4cm}
+\begin{footnotesize}
+*: The estimates are based on half the sample size because the question was either on module A or module B. \\
+ .(.-.): Data are suppressed to ensure confidentiality when the number number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0 or 100 percent, as indicated by all the periods. All percentages are rounded to the nearest tenth\\
+\end{footnotesize}
+
+\noindent For more information about how to use your data, resources available, and other data or technical asistance requests, please email Project Director, Ashley Brooks-Russell at ashley.brooks-russell@ucdenver.edu or HKCS@ucdenver.edu
+\\
+\noindent Website: www.healthykidscolo.org
+
+\end{document}
