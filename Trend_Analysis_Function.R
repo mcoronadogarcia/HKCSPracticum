@@ -95,7 +95,7 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
       
       # if then statement to surpress year information 
       if(nrow(year.data) < 30 | # there are fewer than 30 students responding or
-         sum(year.data[, variables_of_interest[i]]) < 3 | # there are less than 3 students responding yes
+         sum(year.data[, variables_of_interest[i]]) <= ceiling(nrow(year.data)*0.03) | # there are less than or equal to 3% of students responded yes
          # this would also mean that there are 0 students
          # responding yes or
          sum(year.data[, variables_of_interest[i]]) == nrow(year.data) # everyone responded yes
