@@ -79,7 +79,7 @@ print(samplesize, include.rownames = FALSE, caption.placement="top",
       sanitize.colnames.function=center_bold)
 @
 
-\rowcolors{4}{bubbles}{bubbles!50}
+\rowcolors{5}{bubbles}{bubbles!50}
 \captionsetup{width=\textwidth, singlelinecheck=false, justification= raggedright}
 <<echo = FALSE, results = tex>>=
 percentages = as.data.frame(hkcs.results[[2]])
@@ -104,8 +104,6 @@ command <- paste0("\\hline\n\\endhead\n",
 "\\endfoot\n",
 "\\endlastfoot\n")
 add.to.row$command <- command
-
-# names(percentages.table)=c("\\multicolumn{1}{c}{Behavior of Interest}"  ,"\\multicolumn{1}{c}{2013}","\\multicolumn{1}{c}{2015}", "\\multicolumn{1}{c}{2017}", "\\multicolumn{1}{c}{Trend}")
 
 print(percentages.table,
       hline.after=c(-1),
