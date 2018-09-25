@@ -35,10 +35,10 @@
 # Load Data
 cc_hs_final = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/cc_hs_final.csv')
 
-# Load Function
+# Load Trend Function
 source("/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/Trend_Analysis_Function.R")
 
-# Run Function
+# Run Trend Function
 district_name = "Test School"
 hkcs.results = hkcs.trend.analysis(district_id = 1140,
                                    data = cc_hs_final,
@@ -50,6 +50,8 @@ hkcs.results = hkcs.trend.analysis(district_id = 1140,
                                    trend = "Yes",
                                    prefix = "QN_",
                                    variables = NULL)
+# create function to make heading bold
+center_bold <- function(x) {paste('\\multicolumn{1}{c}{\\textbf{',x,'}}', sep ='')}
 @
 
 \begin{center}
@@ -71,8 +73,10 @@ hkcs.results = hkcs.trend.analysis(district_id = 1140,
 samplesize = xtable(hkcs.results[[1]],
                     latext.environments = "center",
                     caption = "Number of students who completed the survey in 2013, 2015, and 2017.")
+
 print(samplesize, include.rownames = FALSE, caption.placement="top", 
-      table.placement = "h", rescale = 2)
+      table.placement = "h", rescale = 2,
+      sanitize.colnames.function=center_bold)
 @
 
 \rowcolors{4}{bubbles}{bubbles!50}
@@ -101,13 +105,16 @@ command <- paste0("\\hline\n\\endhead\n",
 "\\endlastfoot\n")
 add.to.row$command <- command
 
+# names(percentages.table)=c("\\multicolumn{1}{c}{Behavior of Interest}"  ,"\\multicolumn{1}{c}{2013}","\\multicolumn{1}{c}{2015}", "\\multicolumn{1}{c}{2017}", "\\multicolumn{1}{c}{Trend}")
+
 print(percentages.table,
       hline.after=c(-1),
       add.to.row = add.to.row,
       tabular.environment = "longtable",
       floating = FALSE,
       include.rownames = FALSE,
-      caption.placement="top")
+      caption.placement="top",
+      sanitize.colnames.function=center_bold)
 @
 \vspace{-0.4cm}
 \begin{footnotesize}
