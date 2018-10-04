@@ -78,17 +78,31 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
   }
   
   # create table
-  final.table = NULL
+  final.table = data.frame(
+    'indicator' = rep(NA, length(variables_of_interest)),
+    '2013' = rep(NA, length(variables_of_interest)),
+    '2015' = rep(NA, length(variables_of_interest)),
+    '2017' = rep(NA, length(variables_of_interest))
+  )
+  
+  if(trend == 'Yes'){
+    final.table$trend = NA
+  }
+  # suppression result
   surpress = ". (.-.)"
+  # year labels
+  year.colnames = c("X2013", "X2015", "X2017")
   for(i in 1:length(variables_of_interest)){
     # create formula for variable of interest
     freq.formula = as.formula(paste0("~", variables_of_interest[i]))
     
     # stores the wiehgt information for variable of interest
     weight_info = variable_info[which(variable_info$QN_Variable == variables_of_interest[i]),]
-    variable_description = as.character(weight_info$variable_description)
+    
+    # Store variable description
+    final.table[i, 'indicator'] = as.character(weight_info$variable_description)
+    
     # proportions per year
-    combined.results = NULL
     for(j in 1:length(years)){
       # year dataset to be used
       year.data = variables_datasets[[i]][which(variables_datasets[[i]][, "Survey_Year"] == years[j]), ]
@@ -100,7 +114,7 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
          # responding yes or
          sum(year.data[, variables_of_interest[i]]) == nrow(year.data) # everyone responded yes
       ){ 
-        prop.results = surpress
+        final.table[i, year.colnames[j]] = surpress
       } else {
         # create study design for data during jth year of ith variable
         hkcs.des.year = svydesign(id = as.formula(paste0("~", hkcs.cluster)),
@@ -124,20 +138,14 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
         asterisk = ifelse(weight_info[survey_years[j]] != "AB",
                           "*", " ")
         # combine estimate and CI to be one string
-        prop.results = paste0(coef.char, asterisk, "(",
-                              ci.low.char," - ",
-                              ci.hi.char,")")
+        final.table[i, year.colnames[j]] = paste0(
+          coef.char, asterisk, "(",
+          ci.low.char," - ",
+          ci.hi.char,")")
       }
-          
-      # append the jth results to the j-1 results (if j-1 = 0 then append to null)
-      combined.results = c(combined.results, prop.results)
     }
     
-    # add a trend column
-    if(trend == "No"){
-      final.table = rbind(final.table,
-                          c(variable_description, combined.results))
-    } else if(trend == "Yes"){
+    if(trend == "Yes"){
       hkcs.des = svydesign(id = as.formula(paste0("~", hkcs.cluster)),
                            weight = ~common_weight,
                            strata = as.formula(paste0("~", hkcs.strata)),
@@ -149,21 +157,19 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
                            design = hkcs.des)
       result.summary = summary(trend.model)$coefficients
       if(result.summary["time.v1", "Pr(>|t|)"] <= 0.05){
-        trend.result = ifelse(result.summary["time.v1", "Estimate"] > 0,
+        final.table[i, "trend"] = ifelse(result.summary["time.v1", "Estimate"] > 0,
                               "Increase", "Decrease") 
       } else {
-        trend.result = ""
+        final.table[i, "trend"] = ""
       }
-      final.table = rbind(final.table,
-                          c(variable_description, combined.results, trend.result))
     }
   }
   
   # add column names to final table
   if(trend == "No"){
-    colnames(final.table) <- c("Behavior of Interest", years) 
+    colnames(final.table) <- c("Indicator", years) 
   } else if(trend == "Yes"){
-    colnames(final.table) <- c("Behavior of Interest", years, "Trend")
+    colnames(final.table) <- c("Indicator", years, "Trend")
   }
   
   # calculate sample size for each year
