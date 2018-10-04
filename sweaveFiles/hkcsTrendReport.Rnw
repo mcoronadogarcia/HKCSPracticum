@@ -94,7 +94,7 @@ ss.2017 = ss[which(ss$`Survey Year` == 2017), "Number of Respondents"]
 percentages = hkcs.results[[2]]
 
 # results data frame to be a presentable table
-percentages.table = xtable(percentages, caption = "\\textbf{Percentage and 95 percent confidence Interval of health behavior across 2013, 2015, and 2017.}")
+percentages.table = xtable(percentages, caption = "\\textbf{Percentage and 95 percent confidence interval of health behavior across 2013, 2015, and 2017.}")
 
 if(sum(colnames(percentages) == "Trend") >0){
   align(percentages.table) <- "lp{12cm}|rrr|r"
@@ -123,7 +123,7 @@ print(percentages.table,
 \begin{footnotesize}
 \begin{itemize}
 \item[*:] The estimates are based on half the sample size because the question was either on module A or module B.
-\item[.(.-.):] Data are suppressed to ensure confidentiality when the number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0 or 100 percent, as indicated by all the periods. All percentages are rounded to the nearest tenth
+\item[.(.-.):] Data are suppressed to ensure confidentiality when the number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0 or 100 percent, as indicated by all the periods. All percentages are rounded to the nearest tenth.
 \end{itemize}
 \end{footnotesize}
 
