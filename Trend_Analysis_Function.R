@@ -25,11 +25,19 @@ library('dplyr')
 variable_info = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/HS Snapshot trend variables.csv')
 
 
-hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
-                                moda.weight, modb.weight, core.weight,
-                                prefix, variables, trend){
+hkcs.trend.analysis =  function(district_name,
+                                data,
+                                hkcs.districtid,
+                                hkcs.schoolid,
+                                hkcs.classid,
+                                moda.weight,
+                                modb.weight,
+                                core.weight,
+                                prefix,
+                                variables,
+                                trend){
   # Prepare Dataset
-  hkcs.data = data[which(data$district_id == district_id), ]
+  hkcs.data = data[which(data$District_Name == district_name), ]
   hkcs.data$time.v1 = (hkcs.data$Survey_Year - 2013)/2
   
   # find unique years and order them in ascending order
@@ -53,8 +61,9 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
   variables_datasets = list()
   for(i in 1:length(variables_of_interest)){
     # creates dataset with survey information and variable of interest
-    variables_df = hkcs.data[, c(variables_of_interest[i], "Survey_Year", "time.v1", hkcs.cluster, hkcs.strata, moda.weight,
-                                 modb.weight, core.weight)]
+    variables_df = hkcs.data[, c(variables_of_interest[i], "Survey_Year", "time.v1", hkcs.districtid,
+                                 hkcs.classid, hkcs.schoolid, moda.weight,
+                                 modb.weight, core.weight)] 
     # stores the wiehgt information for variable of interest
     weight_info = variable_info[which(variable_info$QN_Variable == variables_of_interest[i]),]
     
@@ -74,7 +83,7 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
     # saves dataset in a list
     variables_datasets[[i]] = variables_df[which(is.na(variables_df[,variables_of_interest[i]]) == FALSE),
                                            c(variables_of_interest[i], "Survey_Year", "time.v1",
-                                             hkcs.cluster, hkcs.strata, "common_weight")]
+                                             hkcs.districtid, hkcs.schoolid, hkcs.classid, "common_weight")]
   }
   
   # create table
@@ -116,6 +125,15 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
       ){ 
         final.table[i, year.colnames[j]] = surpress
       } else {
+        # determine cluster and strata
+        if(length(unique(year.data$SchoolID)) > 1){
+          hkcs.cluster =  hkcs.schoolid
+          hkcs.strata = hkcs.districtid
+        } else if(length(unique(year.data$SchoolID)) == 1) {
+          hkcs.cluster = hkcs.classid
+          hkcs.strata =  hkcs.schoolid
+        }
+        
         # create study design for data during jth year of ith variable
         hkcs.des.year = svydesign(id = as.formula(paste0("~", hkcs.cluster)),
                                   weight = ~common_weight,
@@ -123,7 +141,7 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
                                   data = year.data,
                                   nest = TRUE)
         # calculate the proportion estimates and CI for jth year of ith variable
-        ci = svyciprop(freq.formula, hkcs.des.year, method = "logit")
+        ci = svyciprop(freq.formula, hkcs.des.year, method = "xlogit")
         coef = format(as.vector(ci)*100, digits = 1, nsmall = 1, trim = TRUE) # coefficient
         ci.coef = format(attr(ci, "ci")*100, digits = 1, nsmall = 1, trim = TRUE) # CI
         # reformat the structure of the output so that everything is lined up
@@ -145,15 +163,23 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
       }
     }
     
+    if(length(unique(hkcs.data$SchoolID)) > 1){
+      hkcs.cluster =  hkcs.schoolid
+      hkcs.strata = hkcs.districtid
+    } else if(length(unique(hkcs.data$SchoolID)) == 1) {
+      hkcs.cluster = hkcs.classid
+      hkcs.strata =  hkcs.schoolid
+    }
+    
     if(trend == "Yes"){
       hkcs.des = svydesign(id = as.formula(paste0("~", hkcs.cluster)),
                            weight = ~common_weight,
                            strata = as.formula(paste0("~", hkcs.strata)),
                            data = variables_datasets[[i]],
-                           nest = TRUE)
+                           nest = FALSE)
       trend.formula = as.formula(paste0(variables_of_interest[i],
                                         " ~ time.v1"))
-      trend.model = svyglm(trend.formula, family = quasibinomial(),
+      trend.model = svyglm(trend.formula, family = binomial(link = "logit"),
                            design = hkcs.des)
       result.summary = summary(trend.model)$coefficients
       if(result.summary["time.v1", "Pr(>|t|)"] <= 0.05){
@@ -163,6 +189,7 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
         final.table[i, "trend"] = ""
       }
     }
+    print(i)
   }
   
   # add column names to final table
@@ -183,5 +210,5 @@ hkcs.trend.analysis =  function(district_id, data, hkcs.cluster, hkcs.strata,
   colnames(years.ss) <- c("Survey Year", "Number of Respondents")
   
   # return final table and sample size's
-  return(list(years.ss, final.table))
+  return(list(years.ss, final.table, district_name))
 }
