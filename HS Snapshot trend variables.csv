@@ -1,0 +1,179 @@
+Question,Answers,QN_Variable,Variable_summary_text,variable_label,variable_description,Question_Order,Survey_17,Survey_15,Survey_13
+"During the past 7 days, on how many days were you physically active for a total of at least 60 minutes per day?  (Add up all the time you spent in any kind of physical activity that increased your heart rate and made you breathe hard some of the time.) ","A. 0 days
+B. 1 day
+C. 2 days
+D. 3 days
+E. 4 days
+F. 5 days
+G. 6 days
+H. 7 days",QN_ACTIVITY,Percentage of students who were physically active for a total of at least 60 minutes per day on five or more of the past 7 days,Been active 60 minutes on 5+ days past 7 days,Were physically active for 60 minutes a day for at least 5 days of the past 7 days.,8,AB,AB,AB
+Combination of 2 questions,Combination of 2 questions,QN_SCREEN_COMB,Percentage of students who have 3 or more hours total screen time on average school day,Have 3+ hours/day of total screen time on average school day,Had 3 or more hours of total screen time during an average school day.,11,AB,AB,AB
+"During the past 12 months, on how many sports teams did you play? (Count any teams run by your school or community groups.)","A. 0 teams
+B. 1 team
+C. 2 teams
+D. 3 or more teams",QN_SPORT_TEAMS,Percentage of students who played on one or more sports teams during the past 12 months,Played on 1+ sports teams past 12 months,Were apart of at least one sports team in the last 12 months.,12,AB,AB,AB
+"In an average week when you are in school, on how many days do you go to physical education (PE) classes?
+","A. 0 days
+B. 1 day
+C. 2 days
+D. 3 days
+E. 4 days
+F. 5 days",QN_PE_SCHOOL,Percentage of student who attended physical education (PE) classes on one or more days in an average week ,Attended PE class 1+ days/average week,"On an average week, attended physical education classes at least once.",15,AB,B,B
+"During the past 7 days, how many times did you eat fruit? (Do not count fruit juice)","A. I did not eat fruit during the past 7 days
+B. 1 to 3 times during the past 7 days
+C. 4 to 6 times during the past 7 days
+D. 1 time per day
+E. 2 times per day
+F. 3 times per day
+G. 4 or more times per day",QN_FRUITS,Percentage of students who ate fruit one or more  times per day in the past seven days,Ate fruit 1+ times/day past 7 days,Ate at least one fruit in the past seven days. ,16,AB,AB,AB
+"During the past 7 days, how many times did you eat vegetables?
+","A. I did not eat vegetables during the past 7 days
+B. 1 to 3 times during the past 7 days
+C. 4 to 6 times during the past 7 days
+D. 1 time per day
+E. 2 times per day
+F. 3 times per day
+G. 4 or more times per day",QN_VEGETABLES,Percentage of students who ate vegetables one or more times per day in the past seven days,Ate vegetables 1+ times/day past 7 days,Ate at least one vegetable in the past seven days. ,18,A,AB,AB
+"During the past 7 days, how many times did you drink a can, bottle, or glass of soda or pop, such as Coke, Pepsi, or Sprite?  (Do not count diet soda or diet pop.)","A. I did not drink soda or pop during the past 7 days
+B. 1 to 3 times during the past 7 days
+C. 4 to 6 times during the past 7 days
+D. 1 time per day
+E. 2 times per day
+F. 3 times per day
+G. 4 or more times per day",QN_SODA,"Percentage of students who drank a can, bottle, or glass of soda or pop one or more times per day during the past seven days",Drank soda 1+ times/day past 7 days,"Drank a can, bottle, or glass of soda at least once a day during the past seven days.",20,A,AB,AB
+"During the past 7 days, on how many days did you eat breakfast?","A. 0 days
+B. 1 day
+C. 2 days
+D. 3 days
+E. 4 days
+F. 5 days
+G. 6 days
+H. 7 days",QN_BREAKFAST,Percentage of students who ate breakfast on all of the past seven days,Ate breakfast on all of the past 7 days,Ate breakfast on all of the past seven days.,26,AB,AB,AB
+"During the past 12 months, have you ever been bullied on school property?","A. Yes
+B. No",QN_BULLY_SCHOOL,Percentage of students who had ever been bullied on school property during the past 12 months,Been bullied at school past 12 months,Been bullied on school property during the past 12 months.,28,AB,AB,AB
+"During the past 12 months, have you ever been electronically bullied? (Count being bullied through texting, Instagram, Facebook, or other social media.) ","A. Yes
+B. No",QN_BULLY_ELEC,Percentage of students who had ever been electronically bullied during the past 12 months,Been electronically bullied past 12 months,Been electronically bullied during the past 12 months.,29,AB,AB,AB
+"During the past 30 days, on how many days did you carry a weapon such as a gun, knife, or club on school property?","A. 0 days
+B. 1 day
+C. 2 or 3 days
+D. 4 or 5 days
+E. 6 or more days",QN_WEAPON_SCHOOL,"Percentage of students who carried a weapon such as a gun, knife, or club on school property on one or more of the past 30 days",Carried weapon at school 1+ days past 30 days,"Carried a weapon such as a gun, knife, or club on school property at least once in the past 30 days.",34,AB,AB,AB
+"During the past 12 months, how many times were you in a physical fight?","A. 0 times
+B. 1 time
+C. 2 or 3 times
+D. 4 or 5 times
+E. 6 or 7 times
+F. 8 or 9 times
+G. 10 or 11 times
+H. 12 or more times",QN_FIGHT,Percentage of students who were in a physical fight one or more times during the past 12 months,Fought 1+ times past 12 months,Fought in at least one fight during the past 12 months.,37,AB,AB,AB
+"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?","A. Yes
+B. No",QN_SAD_2WEEKS,Percentage of students who felt so sad or hopeless almost every day for two weeks or more in a row during the past 12 months that they stopped doing some usual activities ,Been sad or hopeless almost every day for 2 weeks past 12 months,Felt sad or hopeless almost everyday for two weeks or more in a row during the past 12 months that they stopped doing some usual activities.,40,AB,AB,AB
+"During the past 12 months, did you ever seriously consider attempting suicide?","A. Yes
+B. No",QN_SUICIDE_CONSIDER,Percentage of students who seriously considered attempting suicide during the past 12 months,Considered suicide past 12 months,Seriously considered attempting suicide during the past 12 months.,42,AB,AB,AB
+"During the past 12 months, how many times did you actually attempt suicide?","A. 0 times
+B. 1 time
+C. 2 or 3 times
+D. 4 or 5 times
+E. 6 or more times",QN_SUICIDE_ATTEMPT,Percentage of students who  attempted suicide one or more times during the past 12 months,Attempted suicide 1+ times past 12 months,Attempted suicided at least once during the past 12 months.,44,AB,AB,AB
+"During the past 30 days, how many times did you ride in a car or other vehicle driven by someone who had been drinking alcohol?","A. 0 times
+B. 1 time
+C. 2 or 3 times
+D. 4 or 5 times
+E. 6 or more times",QN_ALC_RIDE,Percentage of students who rode one or more times during the past 30 days in a car or other vehicle driven by someone who had been drinking alcohol,Rode 1+ times with drinking driver past 30 days,Rode one or more times during the past 30 days in a car or other vehicle driven by someone who had been drinking alcohol.,47,AB,AB,AB
+How old were you when you smoked a whole cigarette for the first time?,"A. I have never smoked a whole cigarette
+B. 8 years old or younger
+C. 9 or 10 years old
+D. 11 or 12 years old
+E. 13 or 14 years old
+F. 15 or 16 years old
+G. 17 years old or older",QN_SMK_EVER,Percentage of students who have ever smoked a whole cigarette,Ever smoked a whole cigarette,Had ever smoked a whole cigarette.,53,B,AB,AB
+"During your life, on how many days have you had at least one drink of alcohol?","A. 0 days
+B. 1 or 2 days
+C. 3 to 9 days
+D. 10 to 19 days
+E. 20 to 39 days
+F. 40 to 99 days
+G. 100 or more days",QN_ALC_EVER,Percentage of students who ever had at least one drink of alcohol ,Had 1 drink on 1+ days in life,Had at least one drink of alcohol.,76,AB,AB,AB
+"During the past 30 days, on how many days did you have at least one drink of alcohol?","A. 0 days
+B. 1 or 2 days
+C. 3 to 5 days
+D. 6 to 9 days
+E. 10 to 19 days
+F. 20 to 29 days
+G. All 30 days",QN_ALC_30,Percentage of students who had at least one drink of alcohol on one or more of the past 30 days,Had 1+ drinks past 30 days,Had at least one drink of alcohol at least once in the past 30 days.,78,AB,AB,AB
+"If you wanted to get some beer, wine, or hard liquor, how easy would it be for you to get some?
+","A. Very hard
+B. Sort of hard
+C. Sort of easy
+D. Very easy",QN_ALC_EASY,Percentage of students who feel it would be sort of easy or very easy to get alcohol if they wanted,Think access to alcohol is sort of/very easy,Think it would be sory of easy or very easy to access alcohol if they wanted.,82,B,A,A
+"How much do you think people risk harming themselves (physically or in other ways) if they have one or two drinks of alcohol nearly every day?
+","A. No risk
+B. Slight risk
+C. Moderate risk
+D. Great risk",QN_ALC_DAILY_HARM,Percentage of students who think people who have one or two drinks nearly every day have moderate or great risk of harming themselves,Think people have moderate/great risk of harming selves if have one or two drinks daily,Think people who have one or two drinks nearly every day have moderate or great risk of harming themselves.,85,B,A,A
+"During your life, how many times have you used marijuana?
+","A. 0 times
+B. 1 or 2 times
+C. 3 to 9 times
+D. 10 to 19 times
+E. 20 to 39 times
+F. 40 to 99 times
+G. 100 or more times",QN_MJ_EVER,Percentage of students who used marijuana one or more times during their life,Tried marijuana 1+ times in life,Used marijuana at least once in their lifetime.,91,AB,AB,AB
+"During the past 30 days, how many times did you use marijuana?","A. 0 times
+B. 1 or 2 times
+C. 3 to 9 times
+D. 10 to 19 times
+E. 20 to 39 times
+F. 40 or more times",QN_MJ_30,Percentage of students who used marijuana one or more times during the past 30 days,Used marijuana 1+ times past 30 days,Used marijuana at least once during the past 30 days.,93,AB,AB,AB
+"If you wanted to get some marijuana, how easy would it be for you to get some?
+","A. Very hard
+B. Sort of hard
+C. Sort of easy
+D. Very easy",QN_MJ_EASY,Percentage of students who feel it would be sort of easy or very easy to get marijuana if they wanted,Think access to marijuana is easy,Felt it would be sort of easy or very easy to get marijuana if they wanted. ,99,B,A,A
+"How much do you think people risk harming themselves (physically or in other ways), if they use marijuana regularly?","A. No risk
+B. Slight risk
+C. Moderate risk
+D. Great risk",QN_MJ_HARM_REG,Percentage of students who think people who use marijuana regularly have moderate or great risk of harm,Think people risk harming themselves from using marijuana regularly,Think people who use mariguana regularly have moderate or great risk of harming themselves.,103,AB,A,A
+"How wrong do you think it is for someone your age to use marijuana?
+","A. Very wrong
+B. Wrong
+C. A little bit wrong
+D. Not wrong at all",QN_MJ_WRONG,Percentage of students who think it is wrong or very wrong for someone same age to use marijuana,Think it is wrong/very wrong for someone student’s age to use marijuana,Think it is wrong or very wrong for someone their age to use marijuana.,104,AB,A,A
+Have you ever had sexual intercourse?,"A. Yes
+B. No",QN_SEX_EVER,Percentage of students who ever had sexual intercourse,Ever had sex,Ever had sexual intercouse.,120,AB,AB,AB
+"During the past 3 months, with how many people did you have sexual intercourse?","A. I have never had sexual intercourse
+B. I have had sexual intercourse, but not during the past 3 months
+C. 1 person
+D. 2 people
+E. 3 people
+F. 4 people
+G. 5 people
+H. 6 or more people",QN_SEX_PARTNERS_3MO,Percentage of students who had sexual intercourse with one or more people during the past three months,Had sex with 1+ people past 3 months,Had sexual intercourse with at least one person during the past three months.,123,AB,AB,AB
+Combination of 2 questions,Combination of 2 questions,QN_BC_NONE,"Among students who had sexual intercourse during the past three months, the percentage who used no method of birth control to prevent pregnancy before last sexual intercourse",Sexually active and no method of birth control used last sexual intercourse past 3 months,"Of those who had sexual intercourse during the past three months, used no method of birth control to prevent pregnancy before last sexual intercourse.",127,AB,AB,AB
+"During the past 12 months, how would you describe your grades in school?
+","A. Mostly A’s
+B. Mostly B’s
+C. Mostly C’s
+D. Mostly D’s
+E. Mostly F’s
+F. None of these grades
+G. Not sure",QN_GRADES_SCHOOL,Percentage of students who described their grades as mostly A's or B's over the past 12 months,Described grades as mostly A's or B's past 12 months,Described their grades as mostly A's or B's over the past 12 months.,133,AB,AB,A
+"Do you participate in any extracurricular activities at school such as sports, band, drama, clubs, or student government?
+","A. Yes
+B. No",QN_CLUBS,Percentage of students who participate in extracurricular activities at school,Participate in extracurricular activities,Participated in extra curricular activities at school.,135,AB,A,A
+"During the LAST FOUR WEEKS how many whole days of school have you missed because you skipped or ""cut""?
+","A. 0 days
+B. 1 day
+C. 2 days
+D. 3 days
+E. 4 to 5 days
+F. 6 to 10 days
+G. 11 or more days",QN_SKIP_SCHOOL,Percentage of students who skipped 1+ whole days of  school during last 4 weeks,Skipped 1+ whole days of school last 4 weeks,Skipped at least one whole day of school during the last four weeks.,136,AB,A,A
+How important is it to you to go to college?,"A. Very important
+B. Important
+C. Not very important
+D. Not at all important",QN_COLLEGE_IMPORTANT,Percentage of students who think it is important to go to college,Think it is important to go to college,Thought it is important to go to college.,148,B,A,A
+"If I had a personal problem, I could ask my parents or guardians for help.","A. NO!
+B. no
+C. yes
+D. YES!",QN_PROBLEM_PARENT,Percentage of students who could ask parents/ guardians for help with a personal problem,Could ask parent/guardian for help if had personal problem,Could ask parents or guardians for help with a personal problem.,150,AB,A,A

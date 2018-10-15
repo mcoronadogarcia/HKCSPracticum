@@ -4,7 +4,8 @@ is.installed <- function(mypkg){
   is.element(mypkg, installed.packages()[,1])
 } 
 
-# check if package "survey" is installed
+# check if package all necessary packages are is installed. If they aren't
+# then it installs them. 
 if (!is.installed("survey")){install.packages("survey")}
 if (!is.installed("knitr")){install.packages("knitr")}
 if (!is.installed("xtable")){install.packages("xtable")}
@@ -17,17 +18,15 @@ library("knitr")
 library("xtable")
 library("kableExtra")
 library('dplyr')
-# Create function that uses the correct weight ----------------------------
-# also automate this so that when the following waves come, the data is 
-# ready for it
 
+
+# Create Function to calcualte proportions and trend analysis -------------
 # read in variable information
-variable_info = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/HS Snapshot trend variables.csv')
-
+variable_info = read.csv('/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/HS Snapshot trend variables.csv')
 
 hkcs.trend.analysis =  function(district_name,
                                 data,
-                                hkcs.districtid,
+                                hkcs.survey.year,
                                 hkcs.schoolid,
                                 hkcs.classid,
                                 moda.weight,
@@ -36,12 +35,14 @@ hkcs.trend.analysis =  function(district_name,
                                 prefix,
                                 variables,
                                 trend){
-  # Prepare Dataset
+  # subset the data for the current district
   hkcs.data = data[which(data$District_Name == district_name), ]
-  hkcs.data$time.v1 = (hkcs.data$Survey_Year - 2013)/2
+  
+  # Create a new time variable for trend analysis
+  hkcs.data$time.v1 = (hkcs.data[, hkcs.survey.year] - 2013)/2
   
   # find unique years and order them in ascending order
-  years_list = unique(hkcs.data$Survey_Year)
+  years_list = unique(hkcs.data[, hkcs.survey.year])
   years = years_list[order(years_list)]
   survey_years = NULL
   for(i in 1:length(years)){
@@ -61,16 +62,29 @@ hkcs.trend.analysis =  function(district_name,
   variables_datasets = list()
   for(i in 1:length(variables_of_interest)){
     # creates dataset with survey information and variable of interest
-    variables_df = hkcs.data[, c(variables_of_interest[i], "Survey_Year", "time.v1", hkcs.districtid,
-                                 hkcs.classid, hkcs.schoolid, moda.weight,
-                                 modb.weight, core.weight)] 
-    # stores the wiehgt information for variable of interest
+    # Only keep data where the variable of interest doesn't have any missing
+    # responses. Also only keep the following columns: Variable of interest,
+    # survey year, time variable, school id, class id, and weight variable.
+    variables_df = hkcs.data[which(!is.na(hkcs.data[, variables_of_interest[i]])),
+                             c(variables_of_interest[i], hkcs.survey.year,
+                                 "time.v1", hkcs.schoolid, hkcs.classid,
+                                 moda.weight, modb.weight, core.weight)] 
+    # stores the weight information for variable of interest
     weight_info = variable_info[which(variable_info$QN_Variable == variables_of_interest[i]),]
     
-    #creates common_weight variable 
+    # creates common_weight and cluster variable for each year of the
+    # ith variable
     variables_df$common_weight = NA
+    variables_df$cluster = NA
     for(j in 1:length(years)){
+      # find the rows for jth year
       loc = which(variables_df$Survey_Year == years[j])
+      
+      # determine what common weight to use for jth year by using the
+      # information from weight_info. If "AB" is present then set common
+      # weight to the core weight, if "A" is present then set common
+      # weight to be moduale A weight, but if "B" is present then set
+      # common weight to be moduale B weight.
       if(weight_info[survey_years[j]] == "AB"){
         variables_df$common_weight[loc] = variables_df[loc, core.weight]
       } else if(weight_info[survey_years[j]] == "A"){
@@ -78,12 +92,28 @@ hkcs.trend.analysis =  function(district_name,
       } else if(weight_info[survey_years[j]] == "B"){
         variables_df$common_weight[loc] = variables_df[loc, modb.weight]
       }
+      
+      # to create the cluster variable calculate the number of schools in a 
+      # district. If the number of schools is 1 then set cluster to be 
+      # class id, if the number of schools is greater than 1 then set
+      # cluster to be school id. 
+      num.school = length(unique(variables_df[loc,
+                                              hkcs.schoolid]))
+      if(num.school == 1){
+        variables_df$cluster[loc] = paste0(variables_df[loc, hkcs.classid],
+                                           "_",
+                                           years[j])
+      } else if(num.school > 1){
+        variables_df$cluster[loc] = paste0(variables_df[loc, hkcs.schoolid],
+                                           "_",
+                                           years[j])
+      }
     }
     
     # saves dataset in a list
-    variables_datasets[[i]] = variables_df[which(is.na(variables_df[,variables_of_interest[i]]) == FALSE),
-                                           c(variables_of_interest[i], "Survey_Year", "time.v1",
-                                             hkcs.districtid, hkcs.schoolid, hkcs.classid, "common_weight")]
+    variables_datasets[[i]] = variables_df[, c(variables_of_interest[i],
+                                               hkcs.survey.year, "time.v1",
+                                               "cluster", "common_weight")]
   }
   
   # create table
@@ -94,56 +124,56 @@ hkcs.trend.analysis =  function(district_name,
     '2017' = rep(NA, length(variables_of_interest))
   )
   
+  # add trend variable to dataset if they want the trend.
   if(trend == 'Yes'){
     final.table$trend = NA
   }
+  
   # suppression result
   surpress = ". (.-.)"
-  # year labels
+  
+  # define the year labels for the dataframe
   year.colnames = c("X2013", "X2015", "X2017")
   for(i in 1:length(variables_of_interest)){
     # create formula for variable of interest
     freq.formula = as.formula(paste0("~", variables_of_interest[i]))
     
-    # stores the wiehgt information for variable of interest
+    # stores the weight information for variable of interest
     weight_info = variable_info[which(variable_info$QN_Variable == variables_of_interest[i]),]
     
-    # Store variable description
+    # Stores variable description
     final.table[i, 'indicator'] = as.character(weight_info$variable_description)
     
-    # proportions per year
+    # calculate proportions per year
     for(j in 1:length(years)){
-      # year dataset to be used
+      # save the data for jth year to be used in for loop
       year.data = variables_datasets[[i]][which(variables_datasets[[i]][, "Survey_Year"] == years[j]), ]
       
-      # if then statement to surpress year information 
-      if(nrow(year.data) < 30 | # there are fewer than 30 students responding or
-         sum(year.data[, variables_of_interest[i]]) < 3 | # less than 3, or 0 students responded yes
-         # this would also mean that there are 0 students
-         # responding yes or
-         sum(year.data[, variables_of_interest[i]]) == nrow(year.data) # everyone responded yes
+      # If there are fewer than 30 students responding or less than 3, or
+      # 0 students responded yes this would also mean that there are 0
+      # students responding yes or everyone responded yes then surpress the
+      # years proportion information else calculate the proportion of yes' 
+      # for that year
+      if(nrow(year.data) < 30 |
+         sum(year.data[, variables_of_interest[i]]) < 3 | 
+         sum(year.data[, variables_of_interest[i]]) == nrow(year.data) 
       ){ 
         final.table[i, year.colnames[j]] = surpress
       } else {
-        # determine cluster and strata
-        if(length(unique(year.data$SchoolID)) > 1){
-          hkcs.cluster =  hkcs.schoolid
-          hkcs.strata = hkcs.districtid
-        } else if(length(unique(year.data$SchoolID)) == 1) {
-          hkcs.cluster = hkcs.classid
-          hkcs.strata =  hkcs.schoolid
-        }
-        
         # create study design for data during jth year of ith variable
-        hkcs.des.year = svydesign(id = as.formula(paste0("~", hkcs.cluster)),
+        # where we use id equal to cluster, weight equal to common weight,
+        # strata equal to survey_year and use the jth years data.
+        hkcs.des.year = svydesign(id = ~cluster,
                                   weight = ~common_weight,
-                                  strata = as.formula(paste0("~", hkcs.strata)),
+                                  strata = as.formula(paste0("~",
+                                                             hkcs.survey.year)),
                                   data = year.data,
-                                  nest = TRUE)
+                                  nest = FALSE)
         # calculate the proportion estimates and CI for jth year of ith variable
         ci = svyciprop(freq.formula, hkcs.des.year, method = "xlogit")
         coef = format(as.vector(ci)*100, digits = 1, nsmall = 1, trim = TRUE) # coefficient
         ci.coef = format(attr(ci, "ci")*100, digits = 1, nsmall = 1, trim = TRUE) # CI
+        
         # reformat the structure of the output so that everything is lined up
         coef.char = ifelse(length(strsplit(coef, "")[[1]]) == 4, coef, paste0(" ", coef))
         ci.low.char = ifelse(length(strsplit(ci.coef[1], "")[[1]]) == 4,
@@ -152,9 +182,11 @@ hkcs.trend.analysis =  function(district_name,
         ci.hi.char = ifelse(length(strsplit(ci.coef[2], "")[[1]]) == 4,
                             as.character(ci.coef[2]),
                             paste0(" ", ci.coef[2]))
+        
         # determine if ith variable during jth year needs an asterisk
         asterisk = ifelse(weight_info[survey_years[j]] != "AB",
                           "*", " ")
+        
         # combine estimate and CI to be one string
         final.table[i, year.colnames[j]] = paste0(
           coef.char, asterisk, "(",
@@ -163,24 +195,32 @@ hkcs.trend.analysis =  function(district_name,
       }
     }
     
-    if(length(unique(hkcs.data$SchoolID)) > 1){
-      hkcs.cluster =  hkcs.schoolid
-      hkcs.strata = hkcs.districtid
-    } else if(length(unique(hkcs.data$SchoolID)) == 1) {
-      hkcs.cluster = hkcs.classid
-      hkcs.strata =  hkcs.schoolid
-    }
-    
+    # if district is requesting trend analysis, then trend = "Yes" and the
+    # logistic model will be evaluated to see if the variable of interest 
+    # has a significant linear trend. 
     if(trend == "Yes"){
-      hkcs.des = svydesign(id = as.formula(paste0("~", hkcs.cluster)),
+      # create design variable using cluster, the common weight, survey year
+      # and the variable's data set.
+      hkcs.des = svydesign(id = ~cluster,
                            weight = ~common_weight,
-                           strata = as.formula(paste0("~", hkcs.strata)),
+                           strata = as.formula(paste0("~", 
+                                                      hkcs.survey.year)),
                            data = variables_datasets[[i]],
                            nest = FALSE)
+      # create formula using time.v1 as the time variable
       trend.formula = as.formula(paste0(variables_of_interest[i],
                                         " ~ time.v1"))
-      trend.model = svyglm(trend.formula, family = binomial(link = "logit"),
+      
+      # create the trend model using the trend formula, study design for the
+      # variable, and the quasibinomial distribution.
+      trend.model = svyglm(trend.formula, family = quasibinomial(link = "logit"),
                            design = hkcs.des)
+      
+      # Determine if the time variable of the trend model was a significant increase
+      # or decrease. If the estimate is not significant (> 0.05) then send column 
+      # a blank, however, if the estimate is significant and greater than zero,
+      # then trend is set to "Increase" otherwise the trend is less than zero,
+      # and we set trend to equal "Decease"
       result.summary = summary(trend.model)$coefficients
       if(result.summary["time.v1", "Pr(>|t|)"] <= 0.05){
         final.table[i, "trend"] = ifelse(result.summary["time.v1", "Estimate"] > 0,
@@ -189,10 +229,9 @@ hkcs.trend.analysis =  function(district_name,
         final.table[i, "trend"] = ""
       }
     }
-    print(i)
   }
   
-  # add column names to final table
+  # Rename column names to final table
   if(trend == "No"){
     colnames(final.table) <- c("Indicator", years) 
   } else if(trend == "Yes"){
@@ -205,7 +244,7 @@ hkcs.trend.analysis =  function(district_name,
     n = rep(NA, length(years)) 
   )
   for(i in 1:length(years)){
-    years.ss$n[i] =  sum(hkcs.data$Survey_Year == years[i])
+    years.ss$n[i] =  sum(hkcs.data[, hkcs.survey.year]== years[i])
   }
   colnames(years.ss) <- c("Survey Year", "Number of Respondents")
   
