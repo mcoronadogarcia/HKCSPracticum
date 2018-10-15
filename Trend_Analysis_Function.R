@@ -11,14 +11,15 @@ if (!is.installed("knitr")){install.packages("knitr")}
 if (!is.installed("xtable")){install.packages("xtable")}
 if (!is.installed("kableExtra")){install.packages("kableExtra")}
 if (!is.installed("dplyr")){install.packages("dplyr")}
+if (!is.installed("rmarkdown")){(install.packages("rmarkdown"))}
 
 # once installed, then load package
-library('survey')
+library("survey")
 library("knitr")
 library("xtable")
 library("kableExtra")
-library('dplyr')
-
+library("dplyr")
+library("rmarkdown")
 
 # Create Function to calcualte proportions and trend analysis -------------
 # read in variable information
@@ -53,7 +54,7 @@ hkcs.trend.analysis =  function(district_name,
   if(!is.null(prefix) & is.null(variables)){
     variables_of_interest.loc = grep(
       paste0("^", prefix), colnames(hkcs.data))
-    variables_of_interest = colnames(cc_hs_final)[variables_of_interest.loc]
+    variables_of_interest = colnames(hkcs.data)[variables_of_interest.loc]
   } else if(!is.null(variables) & is.null(prefix)){
     variables_of_interest = variables
   }
