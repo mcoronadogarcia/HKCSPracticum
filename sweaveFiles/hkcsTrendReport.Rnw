@@ -37,16 +37,19 @@
 
 # Load Data
 cc_hs_final = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/cc_hs_final.csv')
+cc_hs_final$District_Name = "Test School"
 
 # Load Trend Function
 source("/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/Trend_Analysis_Function.R")
 
 # Run Trend Function
 district_name = "Test School"
-hkcs.results = hkcs.trend.analysis(district_id = 1140,
+
+hkcs.results = hkcs.trend.analysis(district_name = district_name,
                                    data = cc_hs_final,
-                                   hkcs.cluster = "CLASSID",
-                                   hkcs.strata = "SchoolID",
+                                   hkcs.survey.year = "Survey_Year",
+                                   hkcs.classid = "CLASSID",
+                                   hkcs.schoolid = "SchoolID",
                                    moda.weight = "Wt_School_moda",
                                    modb.weight = "Wt_School_modb",
                                    core.weight = "Wt_School",
@@ -64,7 +67,7 @@ ss.2017 = ss[which(ss$`Survey Year` == 2017), "Number of Respondents"]
 @
 
 \begin{center}
-  \section*{\Sexpr{district_name} Snapshot}
+  \section*{\Sexpr{district_name}}
   \subsection*{Examining Indicator from 2013 to 2017}
 \end{center}
 \vspace{-0.5cm}
@@ -75,7 +78,7 @@ ss.2017 = ss[which(ss$`Survey Year` == 2017), "Number of Respondents"]
 
 \noindent The HKCS collects self-reported health information from Colorado public high and middle school students every other year. The survey is conducted by sampling schools and classrooms to participate. Any school can opt-in and in some schools all students are invited to participate. When the student response rate is greater than 30\%, the responses are weighted to the school and/or district enrollmemt. The number of students who completed the survey varied each year the survey was administered. For this district, \Sexpr{ss.2013} students completed the survey in 2013, \Sexpr{ss.2015} students completed the survey in 2015, and \Sexpr{ss.2017} students completed the survey in 2017.\\
 
-\noindent In the table below, each indicator is listed with the estimated percentage and 95\% confidence interval of students answering yes in 2013, 2015, and 2017. Additionally, if requested, a trend analysis was conducted for each indicator from 2013 to 2017. If there is a statistically significant change the word "increase" or "decrease" is shown. A blank is shown if there was not a statistically significant change. These results can be used to inform if there is a change in student behaviors over time.
+\noindent In the table below, each indicator is listed with the estimated percentage and 95\% confidence interval of students answering yes in 2013, 2015, and 2017. Additionally, if requested, a trend analysis was conducted for each indicator from 2013 to 2017. If there is a statistically significant change the word \textit{increase} or \textit{decrease} is shown. A blank is shown if there was not a statistically significant change. These results can be used to inform if there is a change in student behaviors over time.
 
 % \rowcolors{2}{bubbles}{bubbles!35}
 <<echo = FALSE, results = tex>>=
