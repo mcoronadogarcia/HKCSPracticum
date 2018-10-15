@@ -1,11 +1,21 @@
 ---
-geometry: margin = 0.5in
+geometry: "left=0.6in,right=0.6in,top=1.85cm,bottom=5cm"
 fontsize: 12pt
 classoption: landscape
-output:
-  pdf_document: default
-  html_document: default
+header-includes: 
+   \usepackage{graphicx}
+   \usepackage{fancyhdr}
+   \usepackage{caption}
+   \captionsetup{width=\textwidth}
+   \usepackage[labelformat=empty]{caption}
+   \pagestyle{fancy}
+   \setlength\headheight{70pt}
+   \renewcommand{\headrulewidth}{0pt}
+   \fancyhead[C]{\includegraphics[height = 1.5in]{/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/HKCS_LogoNew.jpg}}
+   \fancyfoot[LE, LO]{Healthy Kids Colorado Survey}
+   \fancyfoot[RE, RO]{www$.healthykidscolo$.org}
 
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -13,20 +23,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r include = FALSE}
-# load packages
-library('dplyr')
 # Load Data
 cc_hs_final = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/cc_hs_final.csv')
+cc_hs_final$District_Name = "Test School"
 
-# Load Function
+# Load Trend Function
 source("/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/Trend_Analysis_Function.R")
 
-# Run Function
+# Run Trend Function
 district_name = "Test School"
-hkcs.results = hkcs.trend.analysis(district_id = 1140,
+
+hkcs.results = hkcs.trend.analysis(district_name = district_name,
                                    data = cc_hs_final,
-                                   hkcs.cluster = "CLASSID",
-                                   hkcs.strata = "SchoolID",
+                                   hkcs.survey.year = "Survey_Year",
+                                   hkcs.classid = "CLASSID",
+                                   hkcs.schoolid = "SchoolID",
                                    moda.weight = "Wt_School_moda",
                                    modb.weight = "Wt_School_modb",
                                    core.weight = "Wt_School",
@@ -34,36 +45,46 @@ hkcs.results = hkcs.trend.analysis(district_id = 1140,
                                    prefix = "QN_",
                                    variables = NULL)
 
+# save sample size numbers for each year
+ss = hkcs.results[[1]]
+ss.2013 = ss[which(ss$`Survey Year` == 2013), "Number of Respondents"]
+ss.2015 = ss[which(ss$`Survey Year` == 2015), "Number of Respondents"]
+ss.2017 = ss[which(ss$`Survey Year` == 2017), "Number of Respondents"]
 ```
 
-# High School Snapshot of Behaviors from 2013 to 2017
-## `r district_name`
+# `r district_name`
+## Examining Indicator from 2013 to 2017
+
+This report presents your district's results from 2013, 2015, and 2017 Healthy Kids Colorado Survey (HKCS). The HKCS is a voluntary survey that is used to better understand youth health and well-being in Colorado. The HKCS is supported by the Colorado Department of Public Health and Environment, Colorado Department of Education, Colorado Department of Safety, and Colorado Department of Human Services. A team at the Colorado School of Public Health administers the survey. Website: www.healthykidscolo.org | Email: hkcs@ucdenver.edu
+
+The HKCS collects self-reported health information from Colorado public high and middle school students every other year. The survey is conducted by sampling schools and classrooms to participate. Any school can opt-in and in some schools all students are invited to participate. When the student response rate is greater than 30%, the responses are weighted to the school and/or district enrollmemt. The number of students who completed the survey varied each year the survey was administered. For this district, `r ss.2013` students completed the survey in 2013, `r ss.2015` students completed the survey in 2015, and `r ss.2017` students completed the survey in 2017.
+
+In the table below, each indicator is listed with the estimated percentage and 95% confidence interval of students answering yes in 2013, 2015, and 2017. Additionally, if requested, a trend analysis was conducted for each indicator from 2013 to 2017. If there is a statistically significant change the word **increase** or **decrease** is shown. A blank is shown if there was not a statistically significant change. These results can be used to inform if there is a change in student behaviors over time.
+
 
 ```{r echo=FALSE}
 library("knitr")
 library("kableExtra")
 
-kable(hkcs.results[[1]], "latex", longtable = T, booktabs = T,
-      align = "c")
 # converts the results from the function to a data frame
 percentages = as.data.frame(hkcs.results[[2]])
-percentages$`Behavior of Interest` <- as.character(
-  percentages$`Behavior of Interest`) # factor converted to character
-if(sum(colnames(percentages) == "Trend") >0){
-  percentages$Trend = as.character(percentages$Trend)
-} # factor converted to character
 
 # results data frame to be a presentable table
 percentages %>%
-  mutate_all(linebreak) %>%
   kable("latex", longtable = T, booktabs = T, escape = F,
-        align = c("l",rep("r", ncol(percentages)-1)))%>%
+        align = c("l",rep("r", ncol(percentages)-1)),
+        caption = "\\textbf{Percentage and 95 percent confidence interval of indicator in 2013, 2015, and 2017.}") %>%
   kable_styling(latex_options = c("striped", "HOLD_position",
-                                  "repeat_header"), full_width = T)%>%
-  row_spec(0, align = "c") %>%
-  column_spec(1, width = "35em")%>%
-  add_header_above(c(" " = 1, "Percentage (%)" = 3))%>%
-  caption("The estimates are based on half the sample size because the question was either on module A or module B. Data are suppressed to ensure confidentiality when the number number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0% or 100%, as indicated by all period (.). All percentages are rounded to the nearest tenth.")
+                                  "repeat_header"), full_width = T) %>% 
+  row_spec(0, bold = TRUE, align = "c") %>%
+  column_spec(1, width = "25em") %>%
+  add_header_above(c(" " = 1, "Percentage (%)" = 3), bold = TRUE)
 
 ```
 
+* A "\*" was used to identify estimates based on half the sample size because the question was either on module A or module B.
+* Data are suppressed to ensure confidentiality when the number number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0 or 100 percent, as indicated by all period ".(.)". All percentages are rounded to the nearest tenth.
+
+For more information about how to use your data, resources available, and other data or technical asistance requests, please email HKCS@ucdenver.edu
+
+Website: www.healthykidscolo.org
