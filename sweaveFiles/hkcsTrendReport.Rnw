@@ -80,17 +80,6 @@ ss.2017 = ss[which(ss$`Survey Year` == 2017), "Number of Respondents"]
 
 \noindent In the table below, each indicator is listed with the estimated percentage and 95\% confidence interval of students answering yes in 2013, 2015, and 2017. Additionally, if requested, a trend analysis was conducted for each indicator from 2013 to 2017. If there is a statistically significant change the word \textit{increase} or \textit{decrease} is shown. A blank is shown if there was not a statistically significant change. These results can be used to inform if there is a change in student behaviors over time.
 
-% \rowcolors{2}{bubbles}{bubbles!35}
-<<echo = FALSE, results = tex>>=
-# samplesize = xtable(hkcs.results[[1]],
-#                     latext.environments = "center",
-#                     caption = "Number of students who completed the survey in 2013, 2015, and 2017.")
-# 
-# print(samplesize, include.rownames = FALSE, caption.placement="top", 
-#       table.placement = "h", rescale = 2,
-#       sanitize.colnames.function=center_bold)
-@
-
 \rowcolors{5}{bubbles}{bubbles!50}
 \captionsetup{width=\textwidth, singlelinecheck=false, justification= raggedright}
 <<echo = FALSE, results = tex>>=
