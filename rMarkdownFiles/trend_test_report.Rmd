@@ -60,8 +60,8 @@ ss.2015 = ss[which(ss$`Survey Year` == 2015), "Number of Respondents"]
 ss.2017 = ss[which(ss$`Survey Year` == 2017), "Number of Respondents"]
 ```
 
-# `r district`
-## Examining Indicator from 2013 to 2017
+### `r district`
+### Examining Indicators from 2013 to 2017
 
 This report presents your district's results from 2013, 2015, and 2017 Healthy Kids Colorado Survey (HKCS). The HKCS is a voluntary survey that is used to better understand youth health and well-being in Colorado. The HKCS is supported by the Colorado Department of Public Health and Environment, Colorado Department of Education, Colorado Department of Safety, and Colorado Department of Human Services. A team at the Colorado School of Public Health administers the survey. Website: www.healthykidscolo.org | Email: hkcs@ucdenver.edu
 
