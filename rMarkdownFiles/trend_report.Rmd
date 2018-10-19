@@ -39,10 +39,14 @@ knitr::opts_chunk$set(echo = TRUE)
 source("/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/Trend_Analysis_Function.R")
 
 # Run Trend Function
-district.data = hkcs.data.complete[which(hkcs.data.complete$District_Name == district), ]
+# district.data = hkcs.data.complete[which(hkcs.data.complete$District_Name == district), ]
 
 hkcs.results = hkcs.trend.analysis(district_name = district,
-                                   data = district.data,
+                                   state = state.var,
+                                   data = hkcs.data.complete, 
+                                   fpc.data = fpc.data.var,
+                                   fpc.var = fpc.var, 
+                                   hkcs.strata = hkcs.strata.var,
                                    hkcs.survey.year = survey.year.var,
                                    hkcs.classid = classid.var,
                                    hkcs.schoolid = schoolid.var,
@@ -60,7 +64,7 @@ ss.2015 = ss[which(ss$`Survey Year` == 2015), "Number of Respondents"]
 ss.2017 = ss[which(ss$`Survey Year` == 2017), "Number of Respondents"]
 ```
 
-### `r district`
+### `r hkcs.results[[3]]`
 ### Examining Indicators from 2013 to 2017
 
 This report presents your district's results from 2013, 2015, and 2017 Healthy Kids Colorado Survey (HKCS). The HKCS is a voluntary survey that is used to better understand youth health and well-being in Colorado. The HKCS is supported by the Colorado Department of Public Health and Environment, Colorado Department of Education, Colorado Department of Safety, and Colorado Department of Human Services. A team at the Colorado School of Public Health administers the survey. Website: www.healthykidscolo.org | Email: hkcs@ucdenver.edu
@@ -95,6 +99,7 @@ percentages %>%
 
 * A "\*" was used to identify estimates based on half the sample size because the question was either on module A or module B.
 * Data are suppressed to ensure confidentiality when the number number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0 or 100 percent, as indicated by all period ".(.)". All percentages are rounded to the nearest tenth.
+* A "-" was used in place of proportions or trend results when a result could not be calculated. 
 
 For more information about how to use your data, resources available, and other data or technical asistance requests, please email HKCS@ucdenver.edu
 
