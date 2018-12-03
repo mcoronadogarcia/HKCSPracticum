@@ -1,11 +1,15 @@
 # Load Data ---------------------------------------------------------------
 # Load in Data for District Reports
 district.data.all = read.csv('/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/trend_hs_final.csv')
-district_names = as.character(unique(hkcs.data.complete$District_Name))
+district_names = as.character(unique(district.data.all$District_Name))
 
 # Load in Data for State Report
 state.fpc = read.csv("/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/State_trend_fpc_final.csv")
 state.hkcs = read.csv("/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/State_Trend_HS_Final.csv")
+adamsVars = read.csv("adamsCountyVariables.csv")
+
+# Load HS snapshot variable information
+variable_info = read.csv('/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/HS Snapshot trend variables.csv')
 
 # Create Reports for Multiple Districts -----------------------------------
 # set variables for District Data
@@ -29,12 +33,20 @@ for(i in 1:length(district_names)){
     rmarkdown::render(input = "/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/rMarkdownFiles/trend_report.Rmd",
                       output_format = "pdf_document",
                       output_file = paste0(district, "_", "District Report.pdf"),
-                      output_dir = "/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/District_Report_test/")
+                      output_dir = "/Users/mayracoronadogarcia/Documents/Practicum/Data Analysis/District_Report/")
   }
   i = i + 1
 }
 
 # Create State Report -----------------------------------------------------
+# create a list of variables we have information for adams county
+adamsVarsList <- as.character(adamsVars$QN_VARIABLE) 
+snapShotVarsList <- as.character(variable_info$QN_Variable)
+
+# which snap shot variables do we have that adams county has?
+adamsVarLocation <- which(snapShotVarsList %in% adamsVarsList)
+(variables_want <- snapShotVarsList[adamsVarLocation])
+
 # set variables
 hkcs.data.complete = state.hkcs
 district = NULL
@@ -48,6 +60,8 @@ schoolid.var = "SchoolID"
 moda.weight.var = "Weight_moda"
 modb.weight.var = "Weight_modb"
 core.weight.var = "Weight_both"
+prefix.var = NULL
+variables.var = variables_want
 
 rmarkdown::render(input = "/Users/mayracoronadogarcia/Documents/GitHub/HKCSPracticum/rMarkdownFiles/trend_report.Rmd",
                   output_format = "pdf_document",

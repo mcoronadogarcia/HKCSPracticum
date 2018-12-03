@@ -54,8 +54,8 @@ hkcs.results = hkcs.trend.analysis(district_name = district,
                                    modb.weight = modb.weight.var,
                                    core.weight = core.weight.var,
                                    trend = "Yes",
-                                   prefix = "QN_",
-                                   variables = NULL)
+                                   prefix = prefix.var,
+                                   variables = variables.var)
 
 # save sample size numbers for each year
 ss = hkcs.results[[1]]
@@ -99,7 +99,6 @@ percentages %>%
 
 * A "\*" was used to identify estimates based on half the sample size because the question was either on module A or module B.
 * Data are suppressed to ensure confidentiality when the number number of students responding is fewer than 30 and/or the number of students responding Yes is fewer than 3, 0 or 100 percent, as indicated by all period ".(.)". All percentages are rounded to the nearest tenth.
-* A "-" was used in place of proportions or trend results when a result could not be calculated. 
 
 For more information about how to use your data, resources available, and other data or technical asistance requests, please email HKCS@ucdenver.edu
 
